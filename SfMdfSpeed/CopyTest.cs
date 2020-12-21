@@ -19,7 +19,7 @@ namespace SfMdfSpeed
             {
                 yield return Run("10 For-loops Copy Byte Array", () => LoopCopy(bytes), bytes.Length);
 
-                yield return Run("Array.Copy Copies Byte Array", () => ArrayCopy(bytes), bytes.Length);
+                yield return Run("10 Array.Copy Copy Byte Array", () => ArrayCopy(bytes), bytes.Length);
 
                 yield return Run("MemoryStream.CopyTo Copies Byte Array",
                     () => MemeryStreamCopyTo(bytes), bytes.Length);
