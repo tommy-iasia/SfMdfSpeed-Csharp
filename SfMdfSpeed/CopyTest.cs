@@ -17,7 +17,7 @@ namespace SfMdfSpeed
 
             for (int i = 0; i < 10; i++)
             {
-                yield return Run("For-loop Copies Byte Array", () => LoopCopy(bytes), bytes.Length);
+                yield return Run("10 For-loops Copy Byte Array", () => LoopCopy(bytes), bytes.Length);
 
                 yield return Run("Array.Copy Copies Byte Array", () => ArrayCopy(bytes), bytes.Length);
 
@@ -35,7 +35,22 @@ namespace SfMdfSpeed
         {
             byte[] newBytes = new byte[rawBytes.Length];
 
-            for (int i = 0; i < rawBytes.Length; i++)
+            const int parts = 10;
+            Parallel.For(1, parts, i =>
+            {
+                var length = rawBytes.Length / parts;
+
+                var from = (i - 1) * length;
+                var to = from + length;
+
+                for (int j = from; j < to; j++)
+                {
+                    newBytes[j] = rawBytes[j];
+                }
+            });
+
+            var paralleled = rawBytes.Length / parts * parts;
+            for (int i = paralleled; i < rawBytes.Length; i++)
             {
                 newBytes[i] = rawBytes[i];
             }
@@ -45,7 +60,18 @@ namespace SfMdfSpeed
         {
             byte[] newBytes = new byte[rawBytes.Length];
 
-            Array.Copy(rawBytes, newBytes, rawBytes.Length);
+            const int parts = 10;
+            Parallel.For(0, parts - 1, i =>
+            {
+                var length = rawBytes.Length / parts;
+                var index = i * length;
+
+                Array.Copy(rawBytes, index, newBytes, index, length);
+            });
+
+            var paralleled = rawBytes.Length / parts * parts;
+            var remaining = rawBytes.Length - paralleled;
+            Array.Copy(rawBytes, paralleled, newBytes, paralleled, remaining);
         }
 
         private static void MemeryStreamCopyTo(byte[] rawBytes)
