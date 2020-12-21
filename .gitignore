@@ -1,0 +1,12 @@
+/.vs
+/SfMdfSpeed/obj
+/SfMdfSpeed/bin/x64/Debug/net5.0/results.js
+/SfMdfSpeed/bin/x64/Debug/net5.0/SfMdfSpeed.deps.json
+/SfMdfSpeed/bin/x64/Debug/net5.0/SfMdfSpeed.dll
+/SfMdfSpeed/bin/x64/Debug/net5.0/SfMdfSpeed.exe
+/SfMdfSpeed/bin/x64/Debug/net5.0/SfMdfSpeed.pdb
+/SfMdfSpeed/bin/x64/Debug/net5.0/SfMdfSpeed.runtimeconfig.dev.json
+/SfMdfSpeed/bin/x64/Debug/net5.0/SfMdfSpeed.runtimeconfig.json
+/SfMdfSpeed/bin/x64/Debug/net5.0/System.Linq.Async.dll
+/SfMdfSpeed/bin/x64/Debug/net5.0/ref
+/SfMdfSpeed/bin/x64/Debug/net5.0/index.html
