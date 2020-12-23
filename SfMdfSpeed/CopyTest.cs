@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,50 +38,36 @@ namespace SfMdfSpeed
         {
             byte[] newBytes = new byte[rawBytes.Length];
 
-            const int parts = 10;
-            Parallel.For(1, parts, i =>
+            var parts = ParallelUtility.Split(rawBytes.Length, 4);
+            Parallel.ForEach(parts, part =>
             {
-                var length = rawBytes.Length / parts;
-
-                var from = (i - 1) * length;
-                var to = from + length;
-
-                for (int j = from; j < to; j++)
+                for (int i = part.from; i < part.length; i++)
                 {
-                    newBytes[j] = rawBytes[j];
+                    newBytes[i] = rawBytes[i];
                 }
             });
-
-            var paralleled = rawBytes.Length / parts * parts;
-            for (int i = paralleled; i < rawBytes.Length; i++)
-            {
-                newBytes[i] = rawBytes[i];
-            }
         }
 
         private static void ArrayCopy(byte[] rawBytes)
         {
             byte[] newBytes = new byte[rawBytes.Length];
 
-            const int parts = 10;
-            Parallel.For(0, parts - 1, i =>
+            var parts = ParallelUtility.Split(rawBytes.Length, 4);
+            Parallel.ForEach(parts, part =>
             {
-                var length = rawBytes.Length / parts;
-                var index = i * length;
-
-                Array.Copy(rawBytes, index, newBytes, index, length);
+                Array.Copy(rawBytes, part.from, newBytes, part.from, part.length);
             });
-
-            var paralleled = rawBytes.Length / parts * parts;
-            var remaining = rawBytes.Length - paralleled;
-            Array.Copy(rawBytes, paralleled, newBytes, paralleled, remaining);
         }
 
         private static void BlockCopy(byte[] rawBytes)
         {
             byte[] newBytes = new byte[rawBytes.Length];
 
-            Buffer.BlockCopy(rawBytes, 0, newBytes, 0, rawBytes.Length);
+            var parts = ParallelUtility.Split(rawBytes.Length, 4);
+            Parallel.ForEach(parts, part =>
+            {
+                Buffer.BlockCopy(rawBytes, part.from, newBytes, part.from, part.length);
+            });
         }
 
         private static void MemeryStreamCopyTo(byte[] rawBytes)

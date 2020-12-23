@@ -25,18 +25,27 @@ namespace SfMdfSpeed
 
         private static void ForLoop(int count)
         {
-            for (int i = 0; i < count; i++)
+            var parts = ParallelUtility.Split(count, 4);
+            Parallel.ForEach(parts, part =>
             {
-                var _ = i + 1;
-            }
+                for (int i = part.from; i < part.length; i++)
+                {
+                    var _ = i + 1;
+                }
+            });
         }
 
         private static void ForEach(byte[] bytes)
         {
-            foreach (var b in bytes)
+            var parts = ParallelUtility.Split(bytes.Length, 4);
+            Parallel.ForEach(parts, part =>
             {
-                var _ = b + 1;
-            }
+                var span = new Span<byte>(bytes, part.from, part.length);
+                foreach (var b in span)
+                {
+                    var _ = b + 1;
+                }
+            });
         }
     }
 }
