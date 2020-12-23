@@ -21,6 +21,8 @@ namespace SfMdfSpeed
 
                 yield return Run("Array.Copy Copies Byte Array", () => ArrayCopy(bytes), bytes.Length);
 
+                yield return Run("Buffer.BlockCopy Copies Byte Array", () => BlockCopy(bytes), bytes.Length);
+
                 yield return Run("MemoryStream.CopyTo Copies Byte Array",
                     () => MemeryStreamCopyTo(bytes), bytes.Length);
 
@@ -46,6 +48,13 @@ namespace SfMdfSpeed
             byte[] newBytes = new byte[rawBytes.Length];
 
             Array.Copy(rawBytes, newBytes, rawBytes.Length);
+        }
+
+        private static void BlockCopy(byte[] rawBytes)
+        {
+            byte[] newBytes = new byte[rawBytes.Length];
+
+            Buffer.BlockCopy(rawBytes, 0, newBytes, 0, rawBytes.Length);
         }
 
         private static void MemeryStreamCopyTo(byte[] rawBytes)

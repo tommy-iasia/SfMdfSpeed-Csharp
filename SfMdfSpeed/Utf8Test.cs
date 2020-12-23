@@ -10,7 +10,7 @@ namespace SfMdfSpeed
     {
         public override async IAsyncEnumerable<SpeedResult> RunAsync()
         {
-            var fromText = GetText();
+            var fromText = TestData.Repeat("I am very long very long very long very long...", 1_000_000);
 
             for (int i = 0; i < 10; i++)
             {
@@ -22,20 +22,6 @@ namespace SfMdfSpeed
             }
 
             await Task.CompletedTask;
-        }
-
-        private static string GetText()
-        {
-            const string @long = "I am very long very long very long very long...";
-            const int count = 1_000_000;
-
-            var builder = new StringBuilder();
-            for (var i = 0; i < count; i++)
-            {
-                builder.Append(@long);
-            }
-
-            return builder.ToString();
         }
     }
 }

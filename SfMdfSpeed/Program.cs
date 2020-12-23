@@ -19,8 +19,7 @@ namespace SfMdfSpeed
             Console.WriteLine($"Start at {DateTime.Now:yyMMdd HH:mm:ss}");
             await AppendAsync($"/* start {guid} at {DateTime.Now:yyMMdd HH:mm:ss} */");
 
-            var tests = GetTests();
-            foreach (var test in tests)
+            foreach (var test in GetTests())
             {
                 Console.WriteLine($"Run {test}");
 
@@ -39,12 +38,15 @@ namespace SfMdfSpeed
 
         private static IEnumerable<ISpeedTest> GetTests()
         {
+            yield return new LoopTest();
             yield return new CopyTest();
             yield return new RegexTest();
             yield return new SocketTest();
             yield return new FileTest();
             yield return new Utf8Test();
             yield return new Base64Test();
+            yield return new MapTest();
+            yield return new LifeCycleTest();
         }
 
 
