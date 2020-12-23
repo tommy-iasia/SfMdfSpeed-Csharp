@@ -16,5 +16,17 @@ namespace SfMdfSpeed
 
             return array;
         }
+
+        public static string Repeat(string text, int count)
+        {
+            var builder = new StringBuilder();
+
+            for (var i = 0; i < count; i++)
+            {
+                builder.Append(text);
+            }
+
+            return builder.ToString();
+        }
     }
 }

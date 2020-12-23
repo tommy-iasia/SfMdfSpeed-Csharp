@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,9 +16,7 @@ namespace SfMdfSpeed
 
                 var bytes = Encoding.UTF8.GetBytes(text);
 
-                yield return Run("Regex Matches",
-                    () => Regex.Matches(text, @"Message(s)?(\d+)"),
-                    bytes.Length);
+                yield return Run("Regex Matches", () => Regex.Matches(text, @"Message(s)?(\d+)").ToArray(), bytes.Length);
             }
 
             await Task.CompletedTask;
@@ -25,7 +24,7 @@ namespace SfMdfSpeed
 
         private static string GetText(int index)
         {
-            const int count = 30_000_000;
+            const int count = 3_000_000;
 
             var builder = new StringBuilder($"Messages{count}");
             for (var i = 0; i < count; i++)
